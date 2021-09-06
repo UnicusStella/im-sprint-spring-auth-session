@@ -30,7 +30,9 @@ public class SessionController {
     }
 
     @PostMapping(value = "/users/login")
-    public ResponseEntity<?> UserLogin(@RequestBody(required = true)Userdata user, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<?> UserLogin(@RequestBody(required = true)Userdata user,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response){
         //DB에 유저 정보를 불러옵니다.
         System.out.println(user.getUserId());
         UserList userList = sessionService.UserCheck(user);
