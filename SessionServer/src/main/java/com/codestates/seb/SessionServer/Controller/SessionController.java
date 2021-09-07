@@ -67,6 +67,14 @@ public class SessionController {
         //전역에 생성 된 session 객체를 사용해야합니다.
         // 세션이 유효하면 유저 정보를 응답합니다.
         // TODO :
-        return null;
+        if (session == null) {
+            return ResponseEntity.badRequest().body(sessionService.ResponseLog(null, "not authorized"));
+        }
+        UserList userList = (UserList) session.getAttribute(SessionConst.LOGIN_STATES);
+        if (userList == null) {
+            return ResponseEntity.badRequest().body(sessionService.ResponseLog(null, "not authorized"));
+        } else {
+            return ResponseEntity.ok().body(sessionService.ResponseLog(userList, "ok"));
+        }
     }
 }
