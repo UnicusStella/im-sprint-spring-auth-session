@@ -54,8 +54,12 @@ public class SessionController {
         //전역에 생성 된 session 객체를 사용해야합니다.
         //세션을 찾고 세션이 있다면 세션을 지웁니다.
         // TODO :
-        session.removeAttribute("user");
-        return null;
+        if (session == null) {
+            return ResponseEntity.badRequest().body(sessionService.ResponseLog(null, "not authorized"));
+        } else {
+            session.invalidate();
+            return ResponseEntity.ok().body(sessionService.ResponseLog(null, "ok"));
+        }
     }
 
     @GetMapping(value = "/users/userinfo")
