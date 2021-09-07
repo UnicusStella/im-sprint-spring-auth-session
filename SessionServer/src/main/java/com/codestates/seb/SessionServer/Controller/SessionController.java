@@ -20,41 +20,49 @@ public class SessionController {
     public static HttpSession session;
 
     @Autowired
-    public SessionController(SessionService sessionService){
+    public SessionController(SessionService sessionService) {
         this.sessionService = sessionService;
     }
 
     @GetMapping(value = "/")
-    public String SessionIndex(){
+    public String SessionIndex() {
         return "Hello CodeStates!";
     }
 
     @PostMapping(value = "/users/login")
-    public ResponseEntity<?> UserLogin(@RequestBody(required = true)Userdata user,
+    public ResponseEntity<?> UserLogin(@RequestBody(required = true) Userdata user,
                                        HttpServletRequest request,
-                                       HttpServletResponse response){
+                                       HttpServletResponse response) {
         //DB에 유저 정보를 불러옵니다.
         System.out.println(user.getUserId());
         UserList userList = sessionService.UserCheck(user);
+
         // 전역에 생성 된 session 객체를 사용해야합니다.
         // 유저 정보가 있다면 세션을 생성하고 없다면 로그인을 거절합니다.
         // TODO :
-
+        if (userList != null) {
+            session = request.getSession(true);
+            session.setAttribute(SessionConst.LOGIN_STATES, userList);
+            return ResponseEntity.ok().body(sessionService.ResponseLog(userList, "ok"));
+        } else {
+            return ResponseEntity.badRequest().body(sessionService.ResponseLog(null, "not authorized"));
+        }
     }
 
     @GetMapping(value = "/users/logout")
-    public ResponseEntity<?> UserLogOut(){
+    public ResponseEntity<?> UserLogOut() {
         //전역에 생성 된 session 객체를 사용해야합니다.
         //세션을 찾고 세션이 있다면 세션을 지웁니다.
         // TODO :
-
+        session.removeAttribute("user");
+        return null;
     }
 
     @GetMapping(value = "/users/userinfo")
-    public ResponseEntity<?> UserInfo(){
+    public ResponseEntity<?> UserInfo() {
         //전역에 생성 된 session 객체를 사용해야합니다.
         // 세션이 유효하면 유저 정보를 응답합니다.
         // TODO :
-
+        return null;
     }
 }
