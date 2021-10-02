@@ -16,12 +16,12 @@ public class SessionRepository {
     private final EntityManager entityManager;
 
     @Autowired
-    public SessionRepository(EntityManager entityManager){
+    public SessionRepository(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public List<UserList> UserFindByUserId(String id){
-        List<UserList> userList = entityManager.createQuery("SELECT user FROM UserList AS user WHERE user.userId ='"+ id +"'", UserList.class)
+    public List<UserList> UserFindByUserId(String id) {
+        List<UserList> userList = entityManager.createQuery("SELECT user FROM UserList AS user WHERE user.userId ='" + id + "'", UserList.class)
                 .getResultList();
         entityManager.close();
         return userList;

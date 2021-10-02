@@ -17,20 +17,20 @@ public class SessionService {
     private final static LoginResponse LOGIN_RESPONSE = new LoginResponse();
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository){
+    public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
     }
 
-    public UserList UserCheck(Userdata userdata){
-        for(UserList i : sessionRepository.UserFindByUserId(userdata.getUserId())){
-            if(i.getPassword().equals(userdata.getPassword())){
+    public UserList UserCheck(Userdata userdata) {
+        for (UserList i : sessionRepository.UserFindByUserId(userdata.getUserId())) {
+            if (i.getPassword().equals(userdata.getPassword())) {
                 return i;
             }
         }
         return null;
     }
 
-    public LoginResponse ResponseLog(UserList userList, String log){
+    public LoginResponse ResponseLog(UserList userList, String log) {
         LOGIN_RESPONSE.setData(userList);
         LOGIN_RESPONSE.setMessage(log);
         return LOGIN_RESPONSE;
